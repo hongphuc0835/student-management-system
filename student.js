@@ -45,7 +45,7 @@ app.post('/students', async(req, res) => {
 });
 
 //get/id
-app.get('students/:id' ,async(req,res) => {
+app.get('/students/:id' ,async(req,res) => {
     try{
         const doc = await collection.doc(req.params.id).get();
         if(!doc.exists){
@@ -57,6 +57,17 @@ app.get('students/:id' ,async(req,res) => {
         res.status(500).send('Error fetching student: ' + error.message);
     }
 });
+
+//update
+app.put('/students/:id', async (req, res) => {
+    try {
+      const updatedStudent = req.body;
+      await collection.doc(req.params.id).update(updatedStudent);
+      res.status(200).send('Student updated successfully');
+    } catch (error) {
+      res.status(500).send('Error updating student: ' + error.message);
+    }
+  });
 
 //delete
 app.delete('/students/:id', async (req, res) => {
